@@ -296,7 +296,7 @@ class VideoService(QObject):
         return False
 
     def cut(self, source: str, output: str, frametime: str, duration: str, allstreams: bool=True, vcodec: str=None,
-            run: bool=True, gifonly: bool=False) -> Union[bool, str]:
+            run: bool=True, gifOutput: bool=False, mp4Output: bool=False) -> Union[bool, str]:
         self.checkDiskSpace(output)
         stream_map = self.parseMappings(allstreams)
         if vcodec is not None:
@@ -313,21 +313,17 @@ class VideoService(QObject):
             png_frame = QFileInfo(output).fileName().replace(".mp4", "%3d.png")
             png_dir = file_dir + 'tmp' + str(timestamp) + '/'
             gif_dir = file_dir + QFileInfo(output).fileName().replace(".mp4", ".gif")
-<<<<<<< HEAD
-            cut_arg = '-ss {0} -i "{1}" -t {2} -vf "fps=23,scale=640:-1" "{3}"'
+            cut_arg = '-ss {0} -i "{1}" -t {2} -vf "fps=23,scale=iw*min(1\,min(640/iw\,360/ih)):-2" "{3}"'
             merged_arg = '"{0}" --fps 23 --output "{1}"'
-=======
-            cut_arg = '-ss {0} -i "{1}" -t {2} -vf "fps=24,scale=iw*min(1\,min(640/iw\,360/ih)):-2" "{3}"'
-            merged_arg = '"{0}" --fps 24 --output "{1}"'
->>>>>>> e781d09 (fix: png frame arg)
-            os.mkdir(png_dir)
-            self.cmdExec(self.backends.ffmpeg,
-                         cut_arg.format(frametime, source, duration, png_dir + png_frame))
-            self.cmdExec(self.backends.gifski,
-                         merged_arg.format(png_dir + '*.png', gif_dir))
-            shutil.rmtree(png_dir)
+            if gifOutput:
+                os.mkdir(png_dir)
+                self.cmdExec(self.backends.ffmpeg,
+                            cut_arg.format(frametime, source, duration, png_dir + png_frame))
+                self.cmdExec(self.backends.gifski,
+                            merged_arg.format(png_dir + '*.png', gif_dir))
+                shutil.rmtree(png_dir)
 
-            if not gifonly:
+            if mp4Output:
                 result = self.cmdExec(self.backends.ffmpeg, args)
                 if not result or os.path.getsize(output) < 1000:
                     if allstreams:

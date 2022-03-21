@@ -1381,7 +1381,8 @@ class VideoCutter(QWidget):
                                                  frametime=clip[0].toString(self.timeformat),
                                                  duration=duration,
                                                  allstreams=True,
-                                                 gifonly=self.gifOnly):
+                                                 gifOutput=self.gifOutput,
+                                                 mp4Output=self.mp4Output):
                         self.completeOnError('<p>Failed to cut media file, assuming media is invalid or corrupt. '
                                              'Attempts are made to work around problematic media files, even '
                                              'when keyframes are incorrectly set or missing.</p><p>If you feel this '
