@@ -313,8 +313,13 @@ class VideoService(QObject):
             png_frame = QFileInfo(output).fileName().replace(".mp4", "%3d.png")
             png_dir = file_dir + 'tmp' + str(timestamp) + '/'
             gif_dir = file_dir + QFileInfo(output).fileName().replace(".mp4", ".gif")
+<<<<<<< HEAD
             cut_arg = '-ss {0} -i "{1}" -t {2} -vf "fps=23,scale=640:-1" "{3}"'
             merged_arg = '"{0}" --fps 23 --output "{1}"'
+=======
+            cut_arg = '-ss {0} -i "{1}" -t {2} -vf "fps=24,scale=iw*min(1\,min(640/iw\,360/ih)):-2" "{3}"'
+            merged_arg = '"{0}" --fps 24 --output "{1}"'
+>>>>>>> e781d09 (fix: png frame arg)
             os.mkdir(png_dir)
             self.cmdExec(self.backends.ffmpeg,
                          cut_arg.format(frametime, source, duration, png_dir + png_frame))
