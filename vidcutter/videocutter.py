@@ -1338,6 +1338,7 @@ class VideoCutter(QWidget):
         clips = len(self.clipTimes)
         source_file, source_ext = os.path.splitext(self.currentMedia if self.currentMedia is not None
                                                    else self.clipTimes[0][3])
+        source_ext = '.webm'
         suggestedFilename = '{0}_EDIT{1}'.format(source_file, source_ext)
         filefilter = 'Video files (*{0})'.format(source_ext)
         if clips > 0:
