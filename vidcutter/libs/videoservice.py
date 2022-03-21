@@ -312,9 +312,9 @@ class VideoService(QObject):
             timestamp = int(time.time())
             file_path = QDir.fromNativeSeparators(output)
             file_dir = file_path.replace(QFileInfo(output).fileName(), "")
-            png_frame = QFileInfo(output).fileName().replace(".mp4", "%3d.png")
+            png_frame = QFileInfo(output).fileName().replace(".mkv", "%3d.png")
             png_dir = file_dir + 'tmp' + str(timestamp) + '/'
-            gif_dir = file_dir + QFileInfo(output).fileName().replace(".mp4", ".gif")
+            gif_dir = file_dir + QFileInfo(output).fileName().replace(".mkv", ".gif")
             cut_arg = '-ss {0} -i "{1}" -t {2} -vf "fps=23,scale=iw*min(1\,min(640/iw\,360/ih)):-2" "{3}"'
             merged_arg = '"{0}" --fps 23 --output "{1}"'
             if gifOutput and not os.path.exists(gif_dir):
@@ -326,7 +326,7 @@ class VideoService(QObject):
                 shutil.rmtree(png_dir)
 
             if mp4Output:
-                result = self.cmdExec(self.backends.ffmpeg, webmArgs.format(frametime, source, duration, QDir.fromNativeSeparators(output.replace(".mp4", ".webm"))))
+                result = self.cmdExec(self.backends.ffmpeg, webmArgs.format(frametime, source, duration, QDir.fromNativeSeparators(output.replace(".mkv", ".webm"))))
                 if not result or os.path.getsize(output) < 1000:
                     if allstreams:
                         # cut failed so try again without mapping all media streams
