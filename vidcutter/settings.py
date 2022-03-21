@@ -442,6 +442,7 @@ class ToolsPage(QWidget):
         self.parent.settings.setValue('ffmpeg', None)
         self.parent.settings.setValue('ffprobe', None)
         self.parent.settings.setValue('mediainfo', None)
+        self.parent.settings.setValue('gifski', None)
         self.parent.settings.endGroup()
         self.parent.service.backends = VideoService.findBackends(self.parent.settings)
         self.ffmpegpath.setText(self.parent.service.backends.ffmpeg)

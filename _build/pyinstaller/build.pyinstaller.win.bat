@@ -46,6 +46,7 @@ del /q ffmpeg-4.4-full_build\bin\ffplay.exe
 unzip %MEDIAINFO% MediaInfo.exe
 move ffmpeg-4.4-full_build\bin\*.* ..\..\..\bin\
 move MediaInfo.exe ..\..\..\bin\
+move gifski.exe ..\..\..\bin\
 cd ..
 
 REM ......................run pyinstaller......................

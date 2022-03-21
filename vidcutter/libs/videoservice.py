@@ -27,9 +27,11 @@ import logging
 import os
 import re
 import shlex
+import shutil
 import sys
 from bisect import bisect_left
 from functools import partial
+import time
 from typing import List, Optional, Union
 
 from PyQt5.QtCore import (pyqtSignal, pyqtSlot, QDir, QFileInfo, QObject, QProcess, QProcessEnvironment, QSettings,
@@ -107,11 +109,12 @@ class VideoService(QObject):
 
     @staticmethod
     def findBackends(settings: QSettings) -> Munch:
-        tools = Munch(ffmpeg=None, ffprobe=None, mediainfo=None)
+        tools = Munch(ffmpeg=None, ffprobe=None, mediainfo=None, gifski=None)
         settings.beginGroup('tools')
         tools.ffmpeg = settings.value('ffmpeg', None, type=str)
         tools.ffprobe = settings.value('ffprobe', None, type=str)
         tools.mediainfo = settings.value('mediainfo', None, type=str)
+        tools.gifski = settings.value("gifski", None, type=str)
         for tool in list(tools.keys()):
             path = tools[tool]
             if path is None or not len(path) or not os.path.isfile(path):
@@ -134,6 +137,8 @@ class VideoService(QObject):
             raise ToolNotFoundException('FFprobe missing')
         if tools.mediainfo is None:
             raise ToolNotFoundException('MediaInfo missing')
+        if tools.gifski is None:
+            raise ToolNotFoundException('gifski missing')
         return tools
 
     @staticmethod
@@ -302,6 +307,21 @@ class VideoService(QObject):
             args = '-v error -ss {} -t {} -i "{}" -c copy {}-avoid_negative_ts 1 -y "{}"' \
                    .format(frametime, duration, source, stream_map, output)
         if run:
+            timestamp = int(time.time())
+            file_path = QDir.fromNativeSeparators(output)
+            file_dir = file_path.replace(QFileInfo(output).fileName(), "")
+            png_frame = QFileInfo(output).fileName().replace(".mp4", "%3d.png")
+            png_dir = file_dir + 'tmp' + str(timestamp) + '/'
+            gif_dir = file_dir + QFileInfo(output).fileName().replace(".mp4", ".gif")
+            cut_arg = '-ss {0} -i "{1}" -t {2} -vf "fps=24,scale=640:-1" "{3}"'
+            merged_arg = '"{0}" --output "{1}"'
+            os.mkdir(png_dir)
+            self.cmdExec(self.backends.ffmpeg,
+                         cut_arg.format(frametime, source, duration, png_dir + png_frame))
+            self.cmdExec(self.backends.gifski,
+                         merged_arg.format(png_dir + '*.png', gif_dir))
+            shutil.rmtree(png_dir)
+
             result = self.cmdExec(self.backends.ffmpeg, args)
             if not result or os.path.getsize(output) < 1000:
                 if allstreams:
