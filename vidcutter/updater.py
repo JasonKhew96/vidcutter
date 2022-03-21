@@ -65,7 +65,7 @@ class Updater(QDialog):
             reply.deleteLater()
             latest = jsonobj.get('tag_name')
             current = qApp.applicationVersion()
-            self.mbox.show_result(latest, current)
+            self.mbox.show_result(current, current)
         except JSONDecodeError:
             self.logger.exception('Updater JSON decoding error', exc_info=True)
             raise
