@@ -664,13 +664,13 @@ class GeneralPage(QWidget):
 
     @pyqtSlot(int)
     def setGifOutput(self, state: int) -> None:
-         self.parent.parent.saveSetting('gifOutput', state == Qt.Checked)
-         self.parent.parent.gifOutput = (state == Qt.Checked)
+        self.parent.parent.saveSetting('gifOutput', state == Qt.Checked)
+        self.parent.parent.gifOutput = (state == Qt.Checked)
 
     @pyqtSlot(int)
     def setMP4Output(self, state: int) -> None:
-         self.parent.parent.saveSetting('mp4Output', state == Qt.Checked)
-         self.parent.parent.mp4Output = (state == Qt.Checked)
+        self.parent.parent.saveSetting('mp4Output', state == Qt.Checked)
+        self.parent.parent.mp4Output = (state == Qt.Checked)
 
     def setSpinnerValue(self, box_id: int, val: float) -> None:
         self.parent.settings.setValue('level{}Seek'.format(box_id), val)
