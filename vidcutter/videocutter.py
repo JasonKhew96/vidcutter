@@ -1374,11 +1374,11 @@ class VideoCutter(QWidget):
                     duration = self.delta2QTime(clip[0].msecsTo(clip[1])).toString(self.timeformat)
                     filename = '{0}_{1}{2}'.format(file, '{0:0>2}'.format(index), source_ext)
                     if not self.keepClips:
-                        filename = os.path.join(self.workFolder, os.path.basename(filename))
-                    filename = QDir.toNativeSeparators(filename)
-                    filelist.append(filename)
+                        output = os.path.join(self.workFolder, os.path.basename(filename))
+                    output = QDir.toNativeSeparators(output)
+                    filelist.append(output)
                     if not self.videoService.cut(source='{0}{1}'.format(source_file, source_ext),
-                                                 output=filename,
+                                                 output=output,
                                                  frametime=clip[0].toString(self.timeformat),
                                                  duration=duration,
                                                  allstreams=True,
@@ -1391,6 +1391,10 @@ class VideoCutter(QWidget):
                                              'at our <a href="{}">GitHub Issues page</a> so that it can be fixed.</p>'
                                              .format(vidcutter.__bugreport__))
                         return
+                    if self.gifOutput:
+                        QFile.rename(os.path.join(self.workFolder, QFileInfo(filename).fileName().replace(".mp4", ".gif")), os.path.join(self.lastFolder, QFileInfo(filename).fileName().replace(".mp4", ".gif")))
+                    if self.mp4Output:
+                        QFile.rename(os.path.join(self.workFolder, QFileInfo(filename).fileName().replace(".mp4", ".webm")), os.path.join(self.lastFolder, QFileInfo(filename).fileName().replace(".mp4", ".webm")))
             self.joinMedia(filelist)
 
     def smartcutter(self, file: str, source_file: str, source_ext: str) -> None:
