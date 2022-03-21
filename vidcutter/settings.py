@@ -171,42 +171,9 @@ class ThemePage(QWidget):
         nativeDialogsLabel.setObjectName('nativedialogslabel')
         nativeDialogsLabel.setTextFormat(Qt.RichText)
         nativeDialogsLabel.setWordWrap(True)
-        gifOutputCheckbox = QCheckBox('Output GIF only', self)
-        gifOutputCheckbox.setToolTip('Output GIF only dialogs')
-        gifOutputCheckbox.setCursor(Qt.PointingHandCursor)
-        gifOutputCheckbox.setChecked(self.parent.parent.gifOutput)
-        gifOutputCheckbox.stateChanged.connect(self.setGifOutput)
-        gifOutputLabel = QLabel('''
-            <b>ON:</b> Output high quality GIF file
-            <br/>
-            <b>OFF:</b> Don't output high quality GIF
-            <br/><br/>
-            <b>NOTE:</b> Default: ON
-        ''', self)
-        gifOutputLabel.setObjectName('nativedialogslabel')
-        gifOutputLabel.setTextFormat(Qt.RichText)
-        gifOutputLabel.setWordWrap(True)
-        mp4OutputCheckbox = QCheckBox('Output MP4', self)
-        mp4OutputCheckbox.setToolTip('Output GIF dialogs')
-        mp4OutputCheckbox.setCursor(Qt.PointingHandCursor)
-        mp4OutputCheckbox.setChecked(self.parent.parent.mp4Output)
-        mp4OutputCheckbox.stateChanged.connect(self.setMP4Output)
-        mp4OutputLabel = QLabel('''
-            <b>ON:</b> Output high quality MP4 file
-            <br/>
-            <b>OFF:</b> Don't output high quality MP4
-            <br/><br/>
-            <b>NOTE:</b> Default: ON
-        ''', self)
-        mp4OutputLabel.setObjectName('nativedialogslabel')
-        mp4OutputLabel.setTextFormat(Qt.RichText)
-        mp4OutputLabel.setWordWrap(True)
         advancedLayout = QVBoxLayout()
         advancedLayout.addWidget(nativeDialogsCheckbox)
         advancedLayout.addWidget(nativeDialogsLabel)
-        advancedLayout.addWidget(SettingsDialog.lineSeparator())
-        advancedLayout.addWidget(gifOutputCheckbox)
-        advancedLayout.addWidget(gifOutputLabel)
         advancedLayout.addWidget(SettingsDialog.lineSeparator())
         advancedLayout.addWidget(mp4OutputCheckbox)
         advancedLayout.addWidget(mp4OutputLabel)
@@ -580,6 +547,36 @@ class GeneralPage(QWidget):
         singleInstanceLabel.setObjectName('singleinstancelabel')
         singleInstanceLabel.setTextFormat(Qt.RichText)
         singleInstanceLabel.setWordWrap(True)
+        gifOutputCheckbox = QCheckBox('Output GIF only', self)
+        gifOutputCheckbox.setToolTip('Output GIF only dialogs')
+        gifOutputCheckbox.setCursor(Qt.PointingHandCursor)
+        gifOutputCheckbox.setChecked(self.parent.parent.gifOutput)
+        gifOutputCheckbox.stateChanged.connect(self.setGifOutput)
+        gifOutputLabel = QLabel('''
+            <b>ON:</b> Output high quality GIF file
+            <br/>
+            <b>OFF:</b> Don't output high quality GIF
+            <br/><br/>
+            <b>NOTE:</b> Default: ON
+        ''', self)
+        gifOutputLabel.setObjectName('nativedialogslabel')
+        gifOutputLabel.setTextFormat(Qt.RichText)
+        gifOutputLabel.setWordWrap(True)
+        mp4OutputCheckbox = QCheckBox('Output MP4', self)
+        mp4OutputCheckbox.setToolTip('Output GIF dialogs')
+        mp4OutputCheckbox.setCursor(Qt.PointingHandCursor)
+        mp4OutputCheckbox.setChecked(self.parent.parent.mp4Output)
+        mp4OutputCheckbox.stateChanged.connect(self.setMP4Output)
+        mp4OutputLabel = QLabel('''
+            <b>ON:</b> Output high quality MP4 file
+            <br/>
+            <b>OFF:</b> Don't output high quality MP4
+            <br/><br/>
+            <b>NOTE:</b> Default: ON
+        ''', self)
+        mp4OutputLabel.setObjectName('nativedialogslabel')
+        mp4OutputLabel.setTextFormat(Qt.RichText)
+        mp4OutputLabel.setWordWrap(True)
         generalLayout = QVBoxLayout()
         generalLayout.addLayout(smartCutCheckboxLayout)
         generalLayout.addLayout(smartCutLayout)
@@ -592,6 +589,9 @@ class GeneralPage(QWidget):
         generalLayout.addLayout(SettingsDialog.lineSeparator())
         generalLayout.addWidget(singleInstanceCheckbox)
         generalLayout.addWidget(singleInstanceLabel)
+        generalLayout.addLayout(SettingsDialog.lineSeparator())
+        generalLayout.addWidget(gifOutputCheckbox)
+        generalLayout.addWidget(gifOutputLabel)
         generalGroup = QGroupBox('General')
         generalGroup.setLayout(generalLayout)
         seek1SpinBox = QDoubleSpinBox(self)
