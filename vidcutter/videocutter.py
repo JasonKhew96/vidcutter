@@ -114,8 +114,8 @@ class VideoCutter(QWidget):
         self.timelineThumbs = self.settings.value('timelineThumbs', 'on', type=str) in {'on', 'true'}
         self.showConsole = self.settings.value('showConsole', 'off', type=str) in {'on', 'true'}
         self.smartcut = self.settings.value('smartcut', 'off', type=str) in {'on', 'true'}
-        self.level1Seek = self.settings.value('level1Seek', 2, type=float)
-        self.level2Seek = self.settings.value('level2Seek', 5, type=float)
+        self.level1Seek = self.settings.value('level1Seek', 1, type=float)
+        self.level2Seek = self.settings.value('level2Seek', 1, type=float)
         self.verboseLogs = self.parent.verboseLogs
         self.lastFolder = self.settings.value('lastFolder', QDir.homePath(), type=str)
 
