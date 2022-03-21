@@ -315,7 +315,7 @@ class VideoService(QObject):
             gif_dir = file_dir + QFileInfo(output).fileName().replace(".mp4", ".gif")
             cut_arg = '-ss {0} -i "{1}" -t {2} -vf "fps=23,scale=iw*min(1\,min(640/iw\,360/ih)):-2" "{3}"'
             merged_arg = '"{0}" --fps 23 --output "{1}"'
-            if gifOutput:
+            if gifOutput and not os.path.exists(gif_dir):
                 os.mkdir(png_dir)
                 self.cmdExec(self.backends.ffmpeg,
                             cut_arg.format(frametime, source, duration, png_dir + png_frame))
