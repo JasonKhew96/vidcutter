@@ -68,8 +68,8 @@ class Config:
     @property
     def encoding(self) -> dict:
         return {
-            'hevc': 'libx265 -tune zerolatency -preset ultrafast -x265-params crf=18 -qp 4 -flags +cgop',
-            'h264': 'libx264 -tune film -preset ultrafast -x264-params crf=18 -qp 0 -flags +cgop',
+            'hevc': 'libx265 -tune zerolatency -preset ultrafast -x265-params crf=22 -qp 4 -flags +cgop',
+            'h264': 'libx264 -tune film -preset ultrafast -x264-params crf=22 -qp 0 -flags +cgop',
             'vp9': 'libvpx-vp9 -deadline best -quality best'
         }
 
