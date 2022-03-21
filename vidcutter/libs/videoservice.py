@@ -306,6 +306,8 @@ class VideoService(QObject):
         else:
             args = '-v error -ss {} -t {} -i "{}" -c copy {}-avoid_negative_ts 1 -y "{}"' \
                    .format(frametime, duration, source, stream_map, output)
+        webmArgs = '-y -ss {0} -i "{1}" -t {2} -c:v libvpx-vp9 -an -sn -map_chapters -1 -map_metadata -1 -crf 22 -pix_fmt yuva420p ' + \
+                   '-vf "scale=iw*min(1\,min(512/iw\,512/ih)):-2" -preset slow "{3}"'
         if run:
             timestamp = int(time.time())
             file_path = QDir.fromNativeSeparators(output)
@@ -324,7 +326,7 @@ class VideoService(QObject):
                 shutil.rmtree(png_dir)
 
             if mp4Output:
-                result = self.cmdExec(self.backends.ffmpeg, args)
+                result = self.cmdExec(self.backends.ffmpeg, webmArgs.format(frametime, source, duration, QDir.fromNativeSeparators(output.replace(".mp4", ".webm"))))
                 if not result or os.path.getsize(output) < 1000:
                     if allstreams:
                         # cut failed so try again without mapping all media streams
