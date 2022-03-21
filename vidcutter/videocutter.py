@@ -110,6 +110,7 @@ class VideoCutter(QWidget):
         self.keepClips = self.settings.value('keepClips', 'off', type=str) in {'on', 'true'}
         self.nativeDialogs = self.settings.value('nativeDialogs', 'on', type=str) in {'on', 'true'}
         self.indexLayout = self.settings.value('indexLayout', 'right', type=str)
+        self.gifOnly = self.settings.value('gifOnly', 'off', type=str) in {'on', 'true'}
         self.timelineThumbs = self.settings.value('timelineThumbs', 'on', type=str) in {'on', 'true'}
         self.showConsole = self.settings.value('showConsole', 'off', type=str) in {'on', 'true'}
         self.smartcut = self.settings.value('smartcut', 'off', type=str) in {'on', 'true'}
@@ -1379,7 +1380,8 @@ class VideoCutter(QWidget):
                                                  output=filename,
                                                  frametime=clip[0].toString(self.timeformat),
                                                  duration=duration,
-                                                 allstreams=True):
+                                                 allstreams=True,
+                                                 gifonly=self.gifOnly):
                         self.completeOnError('<p>Failed to cut media file, assuming media is invalid or corrupt. '
                                              'Attempts are made to work around problematic media files, even '
                                              'when keyframes are incorrectly set or missing.</p><p>If you feel this '

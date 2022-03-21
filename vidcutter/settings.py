@@ -171,9 +171,27 @@ class ThemePage(QWidget):
         nativeDialogsLabel.setObjectName('nativedialogslabel')
         nativeDialogsLabel.setTextFormat(Qt.RichText)
         nativeDialogsLabel.setWordWrap(True)
+        gifOnlyCheckbox = QCheckBox('Output GIF only', self)
+        gifOnlyCheckbox.setToolTip('Output GIF only dialogs')
+        gifOnlyCheckbox.setCursor(Qt.PointingHandCursor)
+        gifOnlyCheckbox.setChecked(self.parent.parent.gifOnly)
+        gifOnlyCheckbox.stateChanged.connect(self.setGifOnly)
+        gifOnlyLabel = QLabel('''
+            <b>ON:</b> Output high quality GIF file only
+            <br/>
+            <b>OFF:</b> Output high quality GIF and mp4 file
+            <br/><br/>
+            <b>NOTE:</b> Default: OFF
+        ''', self)
+        gifOnlyLabel.setObjectName('nativedialogslabel')
+        gifOnlyLabel.setTextFormat(Qt.RichText)
+        gifOnlyLabel.setWordWrap(True)
         advancedLayout = QVBoxLayout()
         advancedLayout.addWidget(nativeDialogsCheckbox)
         advancedLayout.addWidget(nativeDialogsLabel)
+        advancedLayout.addWidget(SettingsDialog.lineSeparator())
+        advancedLayout.addWidget(gifOnlyCheckbox)
+        advancedLayout.addWidget(gifOnlyLabel)
         advancedGroup = QGroupBox('Advanced')
         advancedGroup.setLayout(advancedLayout)
         mainLayout.addWidget(advancedGroup)
@@ -625,6 +643,11 @@ class GeneralPage(QWidget):
     def keepClips(self, state: int) -> None:
         self.parent.parent.saveSetting('keepClips', state == Qt.Checked)
         self.parent.parent.keepClips = (state == Qt.Checked)
+
+    @pyqtSlot(int)
+    def setGifOnly(self, state: int) -> None:
+         self.parent.parent.saveSetting('gifOnly', state == Qt.Checked)
+         self.parent.parent.gifOnly = (state == Qt.Checked)
 
     def setSpinnerValue(self, box_id: int, val: float) -> None:
         self.parent.settings.setValue('level{}Seek'.format(box_id), val)

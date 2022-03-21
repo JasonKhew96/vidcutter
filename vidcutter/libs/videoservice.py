@@ -296,7 +296,7 @@ class VideoService(QObject):
         return False
 
     def cut(self, source: str, output: str, frametime: str, duration: str, allstreams: bool=True, vcodec: str=None,
-            run: bool=True) -> Union[bool, str]:
+            run: bool=True, gifonly: bool=False) -> Union[bool, str]:
         self.checkDiskSpace(output)
         stream_map = self.parseMappings(allstreams)
         if vcodec is not None:
@@ -327,16 +327,17 @@ class VideoService(QObject):
                          merged_arg.format(png_dir + '*.png', gif_dir))
             shutil.rmtree(png_dir)
 
-            result = self.cmdExec(self.backends.ffmpeg, args)
-            if not result or os.path.getsize(output) < 1000:
-                if allstreams:
-                    # cut failed so try again without mapping all media streams
-                    self.logger.info('cut resulted in zero length file, trying again without all stream mapping')
-                    self.cut(source, output, frametime, duration, False)
-                else:
-                    # both attempts to cut have failed so exit and let user know
-                    VideoService.cleanup([output])
-                    return False
+            if not gifonly:
+                result = self.cmdExec(self.backends.ffmpeg, args)
+                if not result or os.path.getsize(output) < 1000:
+                    if allstreams:
+                        # cut failed so try again without mapping all media streams
+                        self.logger.info('cut resulted in zero length file, trying again without all stream mapping')
+                        self.cut(source, output, frametime, duration, False)
+                    else:
+                        # both attempts to cut have failed so exit and let user know
+                        VideoService.cleanup([output])
+                        return False
             return True
         else:
             if os.getenv('DEBUG', False) or getattr(self.parent, 'verboseLogs', False):
