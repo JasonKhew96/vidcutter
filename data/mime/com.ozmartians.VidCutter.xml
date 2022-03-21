@@ -3,7 +3,7 @@
   <mime-type type="application/x-vidcutter">
     <comment>VidCutter project file</comment>
     <glob pattern="*.vcp"/>
-    <icon name="com.ozmartians.VidCutter"/>
+    <icon name="com.ozmartians.VidCutterHusky"/>
   </mime-type>
   <mime-type type="video/wtv">
     <comment>Windows Recorded TV Show</comment>
