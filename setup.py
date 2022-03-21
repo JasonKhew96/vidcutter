@@ -73,7 +73,7 @@ try:
         long_description=SetupHelpers.get_description(),
         url=vidcutter.__website__,
         license='GPLv3+',
-        packages=['vidcutter_husky', 'vidcutter_husky.libs'],
+        packages=['vidcutter', 'vidcutter.libs'],
         setup_requires=setup_requires,
         install_requires=install_requires,
         data_files=SetupHelpers.get_data_files(),
