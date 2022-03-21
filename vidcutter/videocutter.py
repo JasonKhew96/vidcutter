@@ -110,7 +110,8 @@ class VideoCutter(QWidget):
         self.keepClips = self.settings.value('keepClips', 'off', type=str) in {'on', 'true'}
         self.nativeDialogs = self.settings.value('nativeDialogs', 'on', type=str) in {'on', 'true'}
         self.indexLayout = self.settings.value('indexLayout', 'right', type=str)
-        self.gifOnly = self.settings.value('gifOnly', 'off', type=str) in {'on', 'true'}
+        self.gifOutput = self.settings.value('gifOutput', 'on', type=str) in {'on', 'true'}
+        self.mp4Output = self.settings.value('mp4Output', 'on', type=str) in {'on', 'true'}
         self.timelineThumbs = self.settings.value('timelineThumbs', 'on', type=str) in {'on', 'true'}
         self.showConsole = self.settings.value('showConsole', 'off', type=str) in {'on', 'true'}
         self.smartcut = self.settings.value('smartcut', 'off', type=str) in {'on', 'true'}
