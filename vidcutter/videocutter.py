@@ -1338,7 +1338,6 @@ class VideoCutter(QWidget):
         clips = len(self.clipTimes)
         source_file, source_ext = os.path.splitext(self.currentMedia if self.currentMedia is not None
                                                    else self.clipTimes[0][3])
-        source_ext = '.webm'
         suggestedFilename = '{0}_EDIT{1}'.format(source_file, source_ext)
         filefilter = 'Video files (*{0})'.format(source_ext)
         if clips > 0:
@@ -1373,7 +1372,7 @@ class VideoCutter(QWidget):
                     filelist.append(clip[3])
                 else:
                     duration = self.delta2QTime(clip[0].msecsTo(clip[1])).toString(self.timeformat)
-                    filename = '{0}_{1}{2}'.format(file, '{0:0>2}'.format(index), source_ext)
+                    filename = '{0}_{1}{2}'.format(file, '{0:0>2}'.format(index), '.webm')
                     if not self.keepClips:
                         output = os.path.join(self.workFolder, os.path.basename(filename))
                     output = QDir.toNativeSeparators(output)
@@ -1393,9 +1392,7 @@ class VideoCutter(QWidget):
                                              .format(vidcutter.__bugreport__))
                         return
                     if self.gifOutput:
-                        QFile.rename(os.path.join(self.workFolder, QFileInfo(filename).fileName().replace(".mp4", ".gif")), os.path.join(self.lastFolder, QFileInfo(filename).fileName().replace(".mp4", ".gif")))
-                    if self.mp4Output:
-                        QFile.rename(os.path.join(self.workFolder, QFileInfo(filename).fileName().replace(".mp4", ".webm")), os.path.join(self.lastFolder, QFileInfo(filename).fileName().replace(".mp4", ".webm")))
+                        QFile.rename(os.path.join(self.workFolder, QFileInfo(filename).fileName().replace(".webm", ".gif")), os.path.join(self.lastFolder, QFileInfo(filename).fileName().replace(".webm", ".gif")))
             self.joinMedia(filelist)
 
     def smartcutter(self, file: str, source_file: str, source_ext: str) -> None:
